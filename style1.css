@@ -28,7 +28,7 @@ nav {
     position: absolute;
     top: 0;
     right: 0;
-    left: 1050;
+    left: 1000;
     z-index: 2;
     display: flex;
     flex-wrap: wrap;
