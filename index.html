@@ -4,10 +4,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style1.css">
     <title>Ahmazing Shop</title>
+    
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
-        This is the new wave for shopping online       
+        
+       <header>
+           <div class="overlay"></div>
+           <div class = "text-blue-500"><h1>Ahmazing Shop</h1></div>
+           <div class = "text-blue-500">
+            This is the new wave for shopping online  
+           </div> 
+           <nav>
+            
+               <ul>
+                   <li><a href="index.html">Home</a></li>
+                   <li><a href="#">About</a></li>
+                   <li class ="cart">
+                       <a href="cart.html">
+                           <ion-icon name="basket"></ion-icon>Cart<span>0</span>
+                       </a>
+                   </li>
+               </ul>
+           </nav>
+       </header>    
+       <div class="container">
+        <div class="image">
+            <img src="images/ps5.jpg" alt="ps5">
+            <h3>PS5</h3>
+            <h3>$1,000</h3>
+            <a class="add-cart cart1" href="#">Add Cart</a>
+            <input type="hidden" value="15" />
+        </div>
+        <div class="image">
+            <img src="images/xbox one.jpg" alt="xbox one">
+            <h3>XBOX one</h3>
+            <h3>$2,000</h3>
+            <a class="add-cart cart2" href="#">Add Cart</a>
+            <input type="hidden" value="20" />
+        </div>
+        <div class="image">
+            <img src="images/3060ti.jpg" alt="xbox one">
+            <h3>RTX 3060ti</h3>
+            <h3>$1,009</h3>
+            <a class="add-cart cart3" href="#">Add Cart</a>
+            <input type="hidden" value="25" />
+        </div>
+        <div class="image">
+            <img src="images/joe.jpg" alt="pres">
+            <h3>Joe Biden</h3>
+            <h3>$2,5000</h3>
+            <a class="add-cart cart4" href="#">Add Cart</a>
+            <input type="hidden" value="20" />
+        </div>
+    </div>
+
+
+
+
+       <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+       <script src="cart.js"></script>
 </body>
 </html>
