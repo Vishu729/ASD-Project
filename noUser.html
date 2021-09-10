@@ -7,14 +7,19 @@
         <link rel="stylesheet" href="./admin.css">
     </head>
     <body>
-        <div>
-            <form>
-                <h1>User not found!</h1>
-                <div>
-                    <p>Click Return to search again!</p>
+        <div class="container-search">
+            <form class=>
+                <h1 class="heading-search">User Search</h1>
+                <p class="error-search">User does not exist!</p>
+                <div class="search-input-username">
+                    <input class="search-input" autofocus placeholder="Enter username to begin search" id="username">
                 </div>
+                <button class="search-button"type="button" onclick="searchUser()">Search</button>
+                <p class="search-text">
+                    <a href="./index.html" class="search-link">Return to Index</a>  
+                  </p>  
             </form>
-            <a href="./admin.html" class="form__link">Return</a>
         </div>
+          <script src="./userSearch.js"></script>
     </body>
 </html>

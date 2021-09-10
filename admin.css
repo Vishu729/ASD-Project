@@ -1,7 +1,7 @@
 body {
-    --color-primary: #6b6b6b;
+    --color-primary: #31005e;
     --color-primary-dark: #007f67;
-    --color-secondary: #252c6a;
+    --color-secondary: #001aff;
     --color-error: #cc3333;
     --color-success: #4bb544;
     --border-radius: 4px;
@@ -15,7 +15,7 @@ body {
 
 }
 
-.container__search{
+.container-search{
     width: 400px;
     max-width: 400px;
     margin: 1rem;
@@ -27,13 +27,13 @@ body {
 
 
 .container,
-.search__input,
-.search__button {
+.search-input,
+.search-button {
     font: 500 1rem 'Quicksand', sans-serif;
 }
 
 
-.search__button {
+.search-button {
     width: 100%;
     padding: 1rem 2rem;
     font-weight: bold;
@@ -45,7 +45,7 @@ body {
     cursor: pointer;
     background: var(--color-primary);
 }
-.search__input {
+.search-input {
     display: block;
     width: 100%;
     padding: 0.75rem;
@@ -57,8 +57,27 @@ body {
     transition: background 0.2s, border-color 0.2s;
 }
 
-.heading__search {
+.heading-search {
     margin-bottom: 2rem;
     text-align: center;
-    font:'Quicksand', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.error-search {
+    color: #ff0000;
+    text-align: center;
+}
+
+.search-input-username {
+    margin-bottom: 1rem;
+}
+
+.search-link {
+    color: var(--color-secondary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.search-text {
+    text-align: center;
 }
