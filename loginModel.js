@@ -1,4 +1,4 @@
-//Replace success message with error message
+//Set error/success messages 
 function setFormMessage(formElement, type, message) {
     const messageElement = formElement.querySelector(".form__message");
 
@@ -30,10 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         // Perform Fetch login
+        // Grab username and password from text field
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
 
-        //add database and check for database
+        //add database and compare input with database
+
+        //validate login
 
         //temp login solution
         if(username == "user" && password == "pass") { //temp login username and password
