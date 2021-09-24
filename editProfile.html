@@ -23,32 +23,58 @@
         };
         firebase.initializeApp(firebaseConfig);
     </script>
-    <script src="./loginModel.js" defer></script>
+    <script src="./editProfile.js" defer></script>
 </head>
 <body>
     
     <div class ="container">
         <!--
-            Login form
+            Edit profile form
         -->
         <form class="form" id="login">
-            <h1 class="form__title">Login</h1>
+            <h1 class="form__title">Edit Details</h1>
             <div class="form__message form__message--error"></div>
             <!--
-            Username input
+            Current Username
             -->
             <div class="form__input-group">
+                <p class="form__submessage">Email</p>
                 <input type="text" class="form__input" autofocus placeholder="Email" id="username">
                 <div class="form__input-error-message"></div>
             </div>
             <!--
-            Password Input
+            Current Password
             -->
             <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Password" id="password">
+                <p class="form__submessage">Password</p>
+                <input type="password" class="form__input" autofocus placeholder="New Password" id="newPassword">
                 <div class="form__input-error-message"></div>
             </div>
-            <button class="form__button" type="submit">Login</button>
+            <!--
+            Current Address
+            -->
+            <div class="form__input-group">
+                <p class="form__submessage">Address</p>
+                <input type="text" class="form__input" autofocus placeholder="Address" id="address">
+                <div class="form__input-error-message"></div>
+            </div>
+            <!--
+            Current Phone
+            -->
+            <div class="form__input-group">
+                <p class="form__submessage">Phone Number</p>
+                <input type="text" class="form__input" autofocus placeholder="Phone" id="phone">
+                <div class="form__input-error-message"></div>
+            </div>
+            <!--
+            Password
+            -->
+            <div class="form__input-group">
+                <p class="form__submessage">Enter current password to update details</p>
+                <input type="text" class="form__input" autofocus placeholder="Current Password" id="password">
+                <div class="form__input-error-message"></div>
+            </div>
+            <button class="form__button" type="submit">Update</button>
             <!--
             Redirect to password reset
             --> 
