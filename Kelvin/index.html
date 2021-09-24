@@ -7,15 +7,63 @@
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
+    <script src="app.js"></script>
     <link rel="stylesheet" href="style.css" />
-    <title>Sign in & Sign up Form</title>
+    <title>Ahmazone</title>
   </head>
   <body>
+    <!--Firebase script-->
+    <script type="module">
+      import firebase from 'firebase'
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-analytics.js";
+      import { getAuth, sendSignInLinkToEmail } from "firebase/auth";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+    
+      const firebaseConfig = {
+        apiKey: "AIzaSyAZncLkSj7vmT2gcvAFfLIb-ChTQNKhlzs",
+        authDomain: "ahmazone-9f8cb.firebaseapp.com",
+        projectId: "ahmazone-9f8cb",
+        storageBucket: "ahmazone-9f8cb.appspot.com",
+        messagingSenderId: "39687918220",
+        appId: "1:39687918220:web:a117c0d938f14b02d321a9",
+        measurementId: "G-2HNND2SMT8"
+      };
+    
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+
+      document.getElementById('googleLogin').addEventListener('click', GoogleLogin)
+
+      function GoogleLogin(){
+        console.log("it works")
+      }
+
+      const actionCodeSettings = {
+      // URL you want to redirect back to. The domain (www.example.com) for this
+     // URL must be in the authorized domains list in the Firebase Console.
+      url: 'https://www.example.com/finishSignUp?cartId=1234',
+      // This must be true.
+      handleCodeInApp: true,
+      iOS: {
+        bundleId: 'com.example.ios'
+      },
+      android: {
+        packageName: 'com.example.android',
+        installApp: true,
+        minimumVersion: '12'
+      },
+      dynamicLinkDomain: 'example.page.link'
+    };
+    </script>
+
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
           <form action="#" class="sign-in-form">
-            <h2 class="title">Sign in</h2>
+            <h2 class="title">Login as an Ahmazone member</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="Username" />
@@ -25,7 +73,7 @@
               <input type="password" placeholder="Password" />
             </div>
             <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms</p>
+            <p class="social-text">Or login with:</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -42,7 +90,7 @@
             </div>
           </form>
           <form action="#" class="sign-up-form">
-            <h2 class="title">Sign up</h2>
+            <h2 class="title">Register as an Ahmazone member</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
               <input type="text" placeholder="Username" />
@@ -56,7 +104,7 @@
               <input type="password" placeholder="Password" />
             </div>
             <input type="submit" class="btn" value="Sign up" />
-            <p class="social-text">Or Sign up with social platforms</p>
+            <p class="social-text">Or register with:</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -64,7 +112,7 @@
               <a href="#" class="social-icon">
                 <i class="fab fa-twitter"></i>
               </a>
-              <a href="#" class="social-icon">
+              <a id="googleLogin" href="#" class="social-icon">
                 <i class="fab fa-google"></i>
               </a>
               <a href="#" class="social-icon">
@@ -78,10 +126,9 @@
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>New here ?</h3>
+            <h3>New in Ahmazone?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Click here to register as a new member!
             </p>
             <button class="btn transparent" id="sign-up-btn">
               Sign up
@@ -91,10 +138,9 @@
         </div>
         <div class="panel right-panel">
           <div class="content">
-            <h3>One of us ?</h3>
+            <h3>Registered as an Ahmazone member?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              Click here to login as an existing member!
             </p>
             <button class="btn transparent" id="sign-in-btn">
               Sign in
@@ -104,7 +150,5 @@
         </div>
       </div>
     </div>
-
-    <script src="app.js"></script>
   </body>
 </html>
