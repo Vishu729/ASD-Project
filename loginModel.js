@@ -1,3 +1,41 @@
+//Christopher JS
+
+// Firebase login debug.
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      // User is signed in.
+      var user = firebase.auth().currentUser;
+  
+      if(user != null){
+        console.log(user.email);
+      }
+  
+    } else {
+      // No user is signed in.
+        console.log("Not logged in");
+    }
+  });
+
+function login(loginForm, username, password) {
+    firebase.auth().signInWithEmailAndPassword(username, password)
+    .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    
+        setFormMessage(loginForm, "error", error.message);
+    }).then(() => {
+        setFormMessage(loginForm, "success", "logged in");
+        window.location.href = "./editProfile.html";
+    });
+
+    
+}
+
+function logout() {
+    firebase.auth().signOut();
+}
+
 //Set error/success messages 
 function setFormMessage(formElement, type, message) {
     const messageElement = formElement.querySelector(".form__message");
@@ -25,7 +63,7 @@ function clearInputError(inputElement) {
 //listen to submit button press
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
-
+    
     loginForm.addEventListener("submit", e => {
         e.preventDefault();
 
@@ -34,20 +72,8 @@ document.addEventListener("DOMContentLoaded", () => {
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
 
-        //add database and compare input with database
-
         //validate login
-
-        //temp login solution
-        if(username == "user" && password == "pass") { //temp login username and password
-            window.location.href = "./index.html";
-        } else {
-            //Error message when login incorrect
-            setFormMessage(loginForm, "error", "Invalid username/password combination");
-            //console.log("fail");
-            //console.log(username);
-            //console.log(password);
-        }        
-        
+        login(loginForm, username, password);
+       
     });
 });
