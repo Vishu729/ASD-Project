@@ -1,11 +1,32 @@
+<!--
+    Christopher HTML
+-->
 <!DOCTYPE html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Login</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+        apiKey: "AIzaSyAZncLkSj7vmT2gcvAFfLIb-ChTQNKhlzs",
+        authDomain: "ahmazone-9f8cb.firebaseapp.com",
+        projectId: "ahmazone-9f8cb",
+        storageBucket: "ahmazone-9f8cb.appspot.com",
+        messagingSenderId: "39687918220",
+        appId: "1:39687918220:web:a117c0d938f14b02d321a9",
+        measurementId: "G-2HNND2SMT8"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./loginModel.js" defer></script>
 </head>
 <body>
+    
     <div class ="container">
         <!--
             Login form
@@ -35,12 +56,17 @@
                 <a href="#" class="form__link">Forgot your password?</a>
             </p>
             <!--
-            Redirect to register
+            Redirect to register (redirect to edit profile temporaroly)
             -->
             <p class="form__text">
                 <a href="./register.html" class="form__link">Don't have an account?</a>
             </p>
         </form>
+        <br></br>
+        <!--
+            Temp logout solution
+        -->
+        <button class="form__button" onclick="logout()">Logout</button>
     </div>
-    <script src="./loginModel.js"></script>
+    
 </body>
