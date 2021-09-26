@@ -18,15 +18,16 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 function login(loginForm, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
+    .then(() => {
+        setFormMessage(loginForm, "success", "logged in");
+        window.location.href = "./editProfile.html";
+    })
     .catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
     
         setFormMessage(loginForm, "error", error.message);
-    }).then(() => {
-        setFormMessage(loginForm, "success", "logged in");
-        window.location.href = "./editProfile.html";
     });
 
     
