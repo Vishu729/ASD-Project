@@ -23,20 +23,36 @@ firebase.auth().onAuthStateChanged(function(user) {
   });
 */
 
-async function renderDetails() {
-  const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx');
-  const doc = await snapshot.get();
-  console.log(doc.data());
+async function renderDetails(firstName, lastName, email, phone, address) {
+  const firstNameField = document.querySelector("#first--name");
+  const lastNameField = document.querySelector("#last--name");
+  const emailField = document.querySelector("#username");
+  const addressField = document.querySelector("#address");
+  const phoneField = document.querySelector("#phone");
+
+  firstNameField.value = firstName;
+  lastNameField.value = lastName;
+  emailField.value = email;
+  addressField.value = address;
+  phoneField.value = phone;
+
 }
 
 async function findUser(email) {
   const snapshot = db.collection('customers');
-  const userDoc = await snapshot.where('Email', '==', email).get();
+  const userDoc = await snapshot.where('email', '==', email).get();
   if (userDoc.empty) {
     console.log("Nothing matched");
   } else {
     userDoc.forEach(doc => {
       console.log(doc.id, '=>', doc.data());
+      var firstName = doc.data().firstName;
+      var lastName = doc.data().lastName;
+      var email = doc.data().email;
+      var phone = doc.data().phone;
+      var address = doc.data().address;
+      renderDetails(firstName, lastName, email, phone, address);
+      //console.log(firstName + " " + lastName + " " + email + " " + phone + " " +  address);
       /*
         to retrieve individual data you type
         doc.data().Name; replace Name with field name;
@@ -103,12 +119,12 @@ document.addEventListener("DOMContentLoaded", () => {
     loginForm.addEventListener("submit", e => {
         e.preventDefault();
 
-        // Perform Fetch login
-        // Grab username and password from text field
+        // Perform Update method from firebase firestore.
+        // Grab details from text field and update database and authentication details
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
 
-        //validate login
+        //perform update
         login(loginForm, username, password);
        
     });
