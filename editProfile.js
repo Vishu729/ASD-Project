@@ -1,6 +1,8 @@
 //Christopher JS
-
+//Firebase firestore database
+const db = firebase.firestore();
 // Firebase login debug.
+/*
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
@@ -8,6 +10,10 @@ firebase.auth().onAuthStateChanged(function(user) {
   
       if(user != null){
         console.log(user.email);
+        const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx').get();
+        snapshot.forEach(doc => {
+          console.log(doc.id, '=>', doc.data());
+        });
       }
   
     } else {
@@ -15,14 +21,51 @@ firebase.auth().onAuthStateChanged(function(user) {
         console.log("Not logged in");
     }
   });
+*/
+
+async function renderDetails() {
+  const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx');
+  const doc = await snapshot.get();
+  console.log(doc.data());
+}
+
+async function findUser(email) {
+  const snapshot = db.collection('customers');
+  const userDoc = await snapshot.where('Email', '==', email).get();
+  if (userDoc.empty) {
+    console.log("Nothing matched");
+  } else {
+    userDoc.forEach(doc => {
+      console.log(doc.id, '=>', doc.data());
+      /*
+        to retrieve individual data you type
+        doc.data().Name; replace Name with field name;
+      */
+    });
+  }
+  
+}
 
 function setCurrentDetails() {
     // Retrieve user info from database
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        var user = firebase.auth().currentUser;
     
-    //var user = firebase.auth().currentUser;
-    //find user from database
+        if(user != null){
+          console.log(user.email);
+          //find user from database
+          //print();
+          findUser(user.email);
 
-    //set form placeholder text
+        }
+    
+      } else {
+        // No user is signed in.
+          console.log("Not logged in");
+      }
+    });
 }
 
 function logout() {
@@ -56,7 +99,7 @@ function clearInputError(inputElement) {
 //listen to submit button press
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
-    
+    setCurrentDetails();
     loginForm.addEventListener("submit", e => {
         e.preventDefault();
 
