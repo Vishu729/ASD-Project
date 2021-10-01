@@ -22,20 +22,25 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
   });
 
+
+//Login Functionality - using firebase to authenticate and validate user.
 function login(loginForm, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
+    .then(() => {
+        // if login is successful, set success message and send to next page
+        setFormMessage(loginForm, "success", "logged in");
+        window.location.href = "./editProfile.html";
+    })
     .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
+        // Handle Errors here. Sets error messages made by firebase authentication
+        //var errorCode = error.code;
         var errorMessage = error.message;
     
-        setFormMessage(loginForm, "error", error.message);
-    }).then(() => {
-        setFormMessage(loginForm, "success", "logged in");
-        window.location.href = "./index.html";
+        setFormMessage(loginForm, "error", errorMessage);
     });
 }
 
+//Logout functionality, unvalidate user
 function logout() {
     firebase.auth().signOut();
 }
@@ -70,6 +75,7 @@ function validateEmail(){
 }
 
 //listen to submit button press
+//listen to submit button press in login
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
     const createAccountForm = document.querySelector("#createAccount");

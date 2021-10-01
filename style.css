@@ -71,6 +71,12 @@ body {
     margin-bottom: 1rem;
 }
 
+.form__submessage{
+    font-weight: bold;
+    text-align: left;
+    margin-left: 5px;
+}
+
 .form__input {
     display: block;
     width: 100%;
