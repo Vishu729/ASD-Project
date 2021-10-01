@@ -36,10 +36,7 @@ function login(loginForm, username, password) {
     
 }
 
-<<<<<<< HEAD
-=======
 //Logout functionality, unvalidate user
->>>>>>> christopher
 function logout() {
     firebase.auth().signOut();
 }
@@ -68,9 +65,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //validate login
         login(loginForm, username, password);
-<<<<<<< HEAD
-       
-=======
->>>>>>> christopher
     });
 });
