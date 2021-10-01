@@ -4,25 +4,31 @@ const db = firebase.firestore();
 // Firebase login debug.
 /*
 firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-      var user = firebase.auth().currentUser;
-  
-      if(user != null){
-        console.log(user.email);
-        const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx').get();
-        snapshot.forEach(doc => {
-          console.log(doc.id, '=>', doc.data());
-        });
-      }
-  
-    } else {
-      // No user is signed in.
-        console.log("Not logged in");
+  if (user) {
+    // User is signed in.
+    var user = firebase.auth().currentUser;
+
+    if(user != null){
+      console.log(user.email);
+      const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx').get();
+      snapshot.forEach(doc => {
+        console.log(doc.id, '=>', doc.data());
+      });
     }
-  });
+
+  } else {
+    // No user is signed in.
+      console.log("Not logged in");
+  }
+});
 */
 
+//Update database 
+async function updateDatabase() {
+  
+}
+
+//Sets current details to the text fields except for password
 async function renderDetails(firstName, lastName, email, phone, address) {
   const firstNameField = document.querySelector("#first--name");
   const lastNameField = document.querySelector("#last--name");
@@ -38,13 +44,17 @@ async function renderDetails(firstName, lastName, email, phone, address) {
 
 }
 
+//finds user and displays current details to text fields
 async function findUser(email) {
+  //find user from customer database by email
   const snapshot = db.collection('customers');
   const userDoc = await snapshot.where('email', '==', email).get();
   if (userDoc.empty) {
+    //debug message if can't find user
     console.log("Nothing matched");
   } else {
     userDoc.forEach(doc => {
+      //display details if user found
       console.log(doc.id, '=>', doc.data());
       var firstName = doc.data().firstName;
       var lastName = doc.data().lastName;
@@ -52,16 +62,11 @@ async function findUser(email) {
       var phone = doc.data().phone;
       var address = doc.data().address;
       renderDetails(firstName, lastName, email, phone, address);
-      //console.log(firstName + " " + lastName + " " + email + " " + phone + " " +  address);
-      /*
-        to retrieve individual data you type
-        doc.data().Name; replace Name with field name;
-      */
     });
   }
-  
 }
 
+//Sets current details to text field
 function setCurrentDetails() {
     // Retrieve user info from database
     firebase.auth().onAuthStateChanged(function(user) {
@@ -70,6 +75,7 @@ function setCurrentDetails() {
         var user = firebase.auth().currentUser;
     
         if(user != null){
+          //debug to find user email
           console.log(user.email);
           //find user from database
           //print();
@@ -84,6 +90,8 @@ function setCurrentDetails() {
     });
 }
 
+
+//logout function
 function logout() {
     firebase.auth().signOut();
 }
@@ -96,21 +104,6 @@ function setFormMessage(formElement, type, message) {
     messageElement.classList.remove("form__message--success", "form__message--error");
     messageElement.classList.add(`form__message--${type}`);
 }
-
-
-//create error message
-function setInputError(inputElement, message) {
-    inputElement.classList.add("form__input--error");
-    inputElement.parentElement.querySelector(".form__input-error-message").textContent = message;
-}
-
-
-//clear error message
-function clearInputError(inputElement) {
-    inputElement.classList.remove("form__input--error");
-    inputElement.parentElement.querySelector(".form__input-error-message").textContent = "";
-}
-
 
 //listen to submit button press
 document.addEventListener("DOMContentLoaded", () => {
