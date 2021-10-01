@@ -16,22 +16,30 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
   });
 
+
+//Login Functionality - using firebase to authenticate and validate user.
 function login(loginForm, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
+    .then(() => {
+        // if login is successful, set success message and send to next page
+        setFormMessage(loginForm, "success", "logged in");
+        window.location.href = "./editProfile.html";
+    })
     .catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
+        // Handle Errors here. Sets error messages made by firebase authentication
+        //var errorCode = error.code;
         var errorMessage = error.message;
     
-        setFormMessage(loginForm, "error", error.message);
-    }).then(() => {
-        setFormMessage(loginForm, "success", "logged in");
-        window.location.href = "./index.html";
+        setFormMessage(loginForm, "error", errorMessage);
     });
 
     
 }
 
+<<<<<<< HEAD
+=======
+//Logout functionality, unvalidate user
+>>>>>>> christopher
 function logout() {
     firebase.auth().signOut();
 }
@@ -46,21 +54,7 @@ function setFormMessage(formElement, type, message) {
 }
 
 
-//create error message
-function setInputError(inputElement, message) {
-    inputElement.classList.add("form__input--error");
-    inputElement.parentElement.querySelector(".form__input-error-message").textContent = message;
-}
-
-
-//clear error message
-function clearInputError(inputElement) {
-    inputElement.classList.remove("form__input--error");
-    inputElement.parentElement.querySelector(".form__input-error-message").textContent = "";
-}
-
-
-//listen to submit button press
+//listen to submit button press in login
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
     
@@ -74,6 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //validate login
         login(loginForm, username, password);
+<<<<<<< HEAD
        
+=======
+>>>>>>> christopher
     });
 });
