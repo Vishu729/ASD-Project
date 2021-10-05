@@ -100,11 +100,11 @@ function setFormMessage(formElement, type, message) {
 function setInputError(inputElement, message, strength) {
     inputElement.classList.add("form__input--password-strength");
     if (strength === 0) {
-        //inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "red";
+        inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "red";
     } else if (strength === 1) {
-        //inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "orange";
+        inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "orange";
     } else {
-        //inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "green";
+        inputElement.parentElement.querySelector(".form__input-password-strength").style.color = "green";
     }
     
     inputElement.parentElement.querySelector(".form__input-password-strength").textContent = message;
