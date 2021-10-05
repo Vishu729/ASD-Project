@@ -1,32 +1,93 @@
 //Christopher JS
 //Firebase firestore database
 const db = firebase.firestore();
-// Firebase login debug.
-/*
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-    var user = firebase.auth().currentUser;
+var userId;
+var credential;
 
-    if(user != null){
-      console.log(user.email);
-      const snapshot = db.collection('customers').doc('SFgvexR2tEKnNMueHLvx').get();
-      snapshot.forEach(doc => {
-        console.log(doc.id, '=>', doc.data());
-      });
-    }
 
-  } else {
-    // No user is signed in.
-      console.log("Not logged in");
+//VALIDATION
+function validateEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+//FIRBASE FUNCTIONS
+
+//REAUTHENTICATE
+function reauthenticate(editForm, password, user) {
+  //retreive authentication
+  credential = firebase.auth.EmailAuthProvider.credential(
+    firebase.auth().currentUser.email,
+    password
+  );
+  
+  //set user
+  currentUser = firebase.auth().currentUser;
+
+  currentUser.reauthenticateWithCredential(credential)
+  .then(function() {
+    // User re-authenticated.
+
+    //retrieve details
+    setFormMessage(editForm, "success", "Details Updated");
+    const firstNameField = document.querySelector("#first--name");
+    const lastNameField = document.querySelector("#last--name");
+    const emailField = document.querySelector("#username");
+    const addressField = document.querySelector("#address");
+    const phoneField = document.querySelector("#phone");
+  
+    var firstName = firstNameField.value;
+    var lastName = lastNameField.value;
+    var email = emailField.value;
+    var address = addressField.value;
+    var phone = phoneField.value;
+
+    //reauthenticate
+    updateAuthenticator(user, firstName, lastName, email, address, phone, editForm);
+  })
+  .catch(function(error) {
+    // An error happened.
+    var errorMessage = error.message;
+    console.log("reauthenticate error");
+    setFormMessage(editForm, "error", errorMessage);
+  });
+}
+
+//update authenticator
+async function updateAuthenticator(user, firstName, lastName, email, address, phone, editForm) {
+  //carless user checker
+  if (validateEmail(email)){
+    firebase.auth().currentUser.updateEmail(email)
+    .then(() => {
+      // Email updated!
+      updateDatabase(user, firstName, lastName, email, address, phone);
+    })
+    .catch((error) => {
+      // An error occurred
+      var errorMessage = error.message;
+      setFormMessage(editForm, "error", errorMessage);
+    });  
   }
-});
-*/
+  else {
+    setFormMessage(editForm, "error", "Invalid email sytnax");
+  }
+}
 
 //Update database 
-async function updateDatabase() {
-  
+async function updateDatabase(user, firstName, lastName, email, address, phone) {
+  const customerRef = db. collection('customers');
+  await customerRef.doc(user).set({
+    address: address,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    phone: phone
+  }); 
+  const doc = await customerRef.doc(user).get();
+  console.log(doc.data());
 }
+
+//UPDATE VIEW
 
 //Sets current details to the text fields except for password
 async function renderDetails(firstName, lastName, email, phone, address) {
@@ -41,7 +102,6 @@ async function renderDetails(firstName, lastName, email, phone, address) {
   emailField.value = email;
   addressField.value = address;
   phoneField.value = phone;
-
 }
 
 //finds user and displays current details to text fields
@@ -55,7 +115,8 @@ async function findUser(email) {
   } else {
     userDoc.forEach(doc => {
       //display details if user found
-      console.log(doc.id, '=>', doc.data());
+      console.log(doc.id, '=>', doc.data()); // debug
+      userId = doc.id;
       var firstName = doc.data().firstName;
       var lastName = doc.data().lastName;
       var email = doc.data().email;
@@ -80,7 +141,6 @@ function setCurrentDetails() {
           //find user from database
           //print();
           findUser(user.email);
-
         }
     
       } else {
@@ -89,7 +149,6 @@ function setCurrentDetails() {
       }
     });
 }
-
 
 //logout function
 function logout() {
@@ -105,20 +164,43 @@ function setFormMessage(formElement, type, message) {
     messageElement.classList.add(`form__message--${type}`);
 }
 
+//set text field error
+function setInputError(inputElement, message) {
+  inputElement.classList.add("form__input--error");
+  inputElement.parentElement.querySelector(".form__input-error-message").textContent = message;
+}
+
+//clear text field error
+function clearInputError(inputElement) {
+  inputElement.classList.remove("form__input--error");
+  inputElement.parentElement.querySelector(".form__input-error-message").textContent = "";
+}
+
 //listen to submit button press
 document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.querySelector("#login");
+    const editForm = document.querySelector("#edit");
+    const password = document.querySelector("#password");
+
+    console.log(password);
     setCurrentDetails();
-    loginForm.addEventListener("submit", e => {
+
+    editForm.addEventListener("submit", e => {
         e.preventDefault();
 
-        // Perform Update method from firebase firestore.
-        // Grab details from text field and update database and authentication details
-        var username=document.getElementById("username").value;
-        var password=document.getElementById("password").value;
-
         //perform update
-        login(loginForm, username, password);
-       
+        reauthenticate(editForm, password.value, userId);
+    });
+
+    //error handling for inputs
+    document.querySelectorAll(".form__input").forEach(inputElement => {
+      inputElement.addEventListener("blur", e => {
+          if (e.target.id === "username" && !validateEmail(e.target.value)) {
+            setInputError(inputElement, "Invalid email syntax");
+          }
+      });
+
+      inputElement.addEventListener("input", e => {
+          clearInputError(inputElement);
+      });
     });
 });

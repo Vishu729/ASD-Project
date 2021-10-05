@@ -25,6 +25,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 //Login Functionality - using firebase to authenticate and validate user.
 function login(loginForm, username, password) {
+    console.log()
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
         // if login is successful, set success message and send to next page
