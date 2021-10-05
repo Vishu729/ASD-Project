@@ -63,7 +63,9 @@ body {
 .form__message--error {
     color: var(--color-error);
 }
-
+.form__input-password-strength{
+    color: green
+}
 .form__input-group {
     margin-bottom: 1rem;
 }
