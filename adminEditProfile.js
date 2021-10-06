@@ -2,6 +2,7 @@ const db = firebase.firestore();
 
 async function renderDetails(email, address, phone, firstName, lastName) {
     const emailField = document.querySelector("#email");
+    console.log("Called");
     const addressField = document.querySelector("#address");
     const phoneField = document.querySelector("#phone");
     const firstNameField = document.querySelector("#firstName");
