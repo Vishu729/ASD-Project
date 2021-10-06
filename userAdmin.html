@@ -7,7 +7,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
-<!--Initialize firebase-->
+        <!--Initialize firebase-->
     <script>
         const firebaseConfig = {
         apiKey: "AIzaSyAZncLkSj7vmT2gcvAFfLIb-ChTQNKhlzs",
@@ -23,10 +23,9 @@
     <script src="./userSearch.js" defer></script>
 </head>
 <body>
-   <div class="forms__container">
-
+   <div class="forms__container">     
+       <!--Search Form-->
        <div class ="container">
-   
            <form class="form" id="searchForm">
                <h1 class="form__title">User Search</h1>
                <div class="form__message form__message--error"></div>
@@ -38,7 +37,7 @@
                <button class="form__button" type="submit">Search</button>
            </form>        
        </div> 
-   
+       <!--Edit Form-->
        <div class = "container">
            <form class="form" id="adminEdit">
                <h1 class="form__title">Customer Details</h1>
@@ -73,12 +72,15 @@
                    <input type="password" class="form__input" autofocus placeholder="Password" id="password">
                    <div class="form__input-error-message"></div>
                </div>
+
+               <!--Update, Delete, Regist Buttons-->
                <button class="form__button" type="submit">Update</button>
                <br></br>
                <button class="form__button" type="submit">Delete</button>
                <br></br>
                <button class="form__button" type="submit">Register</button>
            </form>
+
            <p class="form__text">
                <a href="./adminManagement.html" class="form__link">Return</a>
            </p>
