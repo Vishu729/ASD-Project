@@ -29,7 +29,6 @@ function reauthenticate(editForm, password, user) {
     // User re-authenticated.
 
     //retrieve details
-    setFormMessage(editForm, "success", "Details Updated");
     const firstNameField = document.querySelector("#first--name");
     const lastNameField = document.querySelector("#last--name");
     const emailField = document.querySelector("#username");
@@ -60,6 +59,7 @@ async function updateAuthenticator(user, firstName, lastName, email, address, ph
     firebase.auth().currentUser.updateEmail(email)
     .then(() => {
       // Email updated!
+      setFormMessage(editForm, "success", "Details Updated");
       updateDatabase(user, firstName, lastName, email, address, phone);
     })
     .catch((error) => {
@@ -181,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const editForm = document.querySelector("#edit");
     const password = document.querySelector("#password");
 
-    console.log(password);
     setCurrentDetails();
 
     editForm.addEventListener("submit", e => {
