@@ -20,7 +20,7 @@ async function  getItems(){
 async function addToCart(item){
     console.log("add to cart function...")
     //let cartItem = db.collection("cart-items").doc(item.id);
-    const cartItem = doc(db, "cart-items",item.id);
+    const cartItem = doc(db, "cart-item",item.id);
     const docSnap = await getDoc(cartItem);
  
         if(docSnap.exists()){
