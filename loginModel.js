@@ -1,7 +1,5 @@
 //Christopher & Kelvin JS
 const db = firebase.firestore();
-const loginForm = document.querySelector("#login");
-const createAccountForm = document.querySelector("#createAccount");
 
 
 var passwordStrength;
@@ -23,7 +21,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 //Login Functionality - using firebase to authenticate and validate user.
-function login(username, password) {
+function login(loginForm, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
         // if login is successful, set success message and send to next page
@@ -36,12 +34,12 @@ function login(username, password) {
         //var errorCode = error.code;
         var errorMessage = error.message;
     
-        setFormMessage("error", errorMessage);
+        setFormMessage(loginForm, "error", errorMessage);
         return "Incorrect Details";
     });
 }
 
-function register(firstName, lastName, email, address, phone, password) {
+function register(createAccountForm, firstName, lastName, email, address, phone, password) {
     //check if details are correct
     // check if email is correct
     // check if password is strong
@@ -236,8 +234,8 @@ function clearInputError(inputElement) {
 //listen to submit button press
 //listen to submit button press in login
 document.addEventListener("DOMContentLoaded", () => {
-    //const loginForm = document.querySelector("#login");
-    //const createAccountForm = document.querySelector("#createAccount");
+    const loginForm = document.querySelector("#login");
+    const createAccountForm = document.querySelector("#createAccount");
     
     //opens registration tab and closes login tab
     document.querySelector("#linkCreateAccount").addEventListener("click", e => {
@@ -261,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var password=document.getElementById("password").value;
 
         //validate login
-        login(username, password);
+        login(loginForm, username, password);
     });
 
     createAccountForm.addEventListener("submit", e => {
@@ -274,7 +272,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var address =document.getElementById("signupAddress").value;
         // Perform Fetch login
         // Grab username and password from text field
-        register(firstName, lastName, email, address, phone, password);
+        register(createAccountForm, firstName, lastName, email, address, phone, password);
     });
 });
 
