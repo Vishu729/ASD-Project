@@ -141,3 +141,12 @@ body {
 .form__link:hover {
     text-decoration: underline;
 }
+
+/* 
+img src for index.html banner Vishu
+*/
+.home-banner{
+    background-image: url("https://www.animelab.com/blog/wp-content/uploads/2021/03/ANZ_DragonBallSuper_Battles_Banner_New_TOEIanimation-1024x576.jpg");
+    background-position: center;
+    background-size: cover;
+}
