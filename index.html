@@ -6,10 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ah-mazone</title>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
     <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.1.1/dist/jdenticon.min.js" async
     integrity="sha384-l0/0sn63N3mskDgRYJZA6Mogihu0VY3CusdLMiwpJ9LFPklOARUcOiWEIGGmFELx"
     crossorigin="anonymous">
+</script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 </script>
 </head>
 <body>
@@ -18,7 +28,7 @@
 <div class= "bg-white w-full">
     <div class="header bg-gray-900 flex items-center">
     <div class="logo w-1/5 h-16 ml-10 ">
-        <img class="w-28 h-16 object-contain" src="images/cov.png">
+        <img class="w-28 h-16 object-contain" src="https://i.ibb.co/PCcPtv6/output-onlinepngtools.png">
 <!--Search-->
     </div>
     <input class="h-9 w-30 bg-gray-800 border
@@ -56,16 +66,21 @@
             <path stroke-linecap="round" 
             stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
-    
-    <div class="cart-icon relative h-10 w-10 bg-yellow-500 
-    flex items-center justify-center rounded-xl">
-        <svg class="h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
-        viewBox="0 0 24 24" stroke="currentColor">
+<!--Cart amount icon-->    
+    <a href="cart.html">
+        <div class="cart-icon relative h-10 w-10 bg-yellow-500 
+        flex items-center justify-center rounded-xl">
+        <div class="cart-qty-number text-gray-800 text-xs 
+        absolute -top-1 -right-1 h-4 w-4 bg-white 
+        rounded-full flex justify-center item-center">1</div>
+            <svg class="h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" 
+            viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" 
             stroke-linejoin="round" 
             stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-    </div>
+        </div>
+    </a>
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" 
         stroke-linejoin="round" 
@@ -206,7 +221,7 @@
                                 <img class="w-full h-full object-contain " src="https://plecom.imgix.net/iil-235554-643083.jpg?fit=fillmax&fill=solid&fill-color=ffffff&auto=format&w=1000&h=1000">
                             </div>
                             <div class="product-name text-gray-700 font-bold mt-2 text-sm">
-                                MSI GeForce RTX 3090 Gaming X Trio 24GB GDDR6X  
+                                MSI GeForce RTX 3090 
                             </div>
                             <div class="product-type text-green-700 font-bold">
                                 Graphics Card
@@ -215,7 +230,11 @@
                                 ⭐⭐⭐⭐⭐ 5
                             </div>
                             <div class="product-price text-gray-700 font-bold">
-                                $3599
+                                $3,599.00
+                            </div>
+                            <div class="Add to cart w-48 flex items-center justify-center 
+                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
+                             Add to cart
                             </div>
                         </div>
                         <div class="product 2 justify-center items-center mt-5 mr-6">  
@@ -232,7 +251,11 @@
                                 ⭐⭐⭐⭐⭐ 4.5
                             </div>
                             <div class="product-price text-gray-700 font-bold">
-                                $999
+                                $999.00
+                            </div>
+                            <div class="Add to cart w-48 flex items-center justify-center 
+                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
+                             Add to cart
                             </div>
                         </div>
                         <div class="product 3 justify-center items-center mt-5 mr-6">
@@ -249,7 +272,11 @@
                                 ⭐⭐⭐⭐⭐ 4
                             </div>
                             <div class="product-price text-gray-700 font-bold">
-                                $899
+                                $899.00
+                            </div>
+                            <div class="Add to cart w-48 flex items-center justify-center 
+                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
+                             Add to cart
                             </div>
                         </div>  
                         <div class="product 4 justify-center items-center mt-5 mr-6"> 
@@ -267,6 +294,10 @@
                             </div>
                             <div class="product-price text-gray-700 font-bold">
                                 $19.99
+                            </div>
+                            <div class="Add to cart w-48 flex items-center justify-center 
+                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
+                             Add to cart
                             </div>
                         </div>
                     </div>
