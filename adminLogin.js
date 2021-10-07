@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   });
 
 
-//Login Functionality - using firebase to authenticate and validate user.
+//Login function 
 function login(loginForm, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
@@ -26,44 +26,37 @@ function login(loginForm, username, password) {
         window.location.href = "./adminManagement.html";
     })
     .catch(function(error) {
-        // Handle Errors here. Sets error messages made by firebase authentication
-        //var errorCode = error.code;
+        //Error if log is not successful.
         var errorMessage = error.message;
     
         setFormMessage(loginForm, "error", errorMessage);
-    });
-
-    
+    });  
 }
 
 //Logout functionality, unvalidate user
 function logout() {
     firebase.auth().signOut();
+    window.location.href = "./adminLogin.html";
 }
-
-//Set error/success messages 
-function setFormMessage(formElement, type, message) {
-    const messageElement = formElement.querySelector(".form__message");
-
-    messageElement.textContent = message;
-    messageElement.classList.remove("form__message--success", "form__message--error");
-    messageElement.classList.add(`form__message--${type}`);
-}
-
 
 //listen to submit button press in login
 document.addEventListener("DOMContentLoaded", () => {
     const adminLogin = document.querySelector("#adminLogin");
-    
     adminLogin.addEventListener("submit", e => {
         e.preventDefault();
-        console.log("Yes");
-        // Perform Fetch login
-        // Grab username and password from text field
+        // Gets username and password from text fields.
         var username=document.getElementById("username").value;
         var password=document.getElementById("password").value;
-
-        //validate login
+        //Calls login function
         login(adminLogin, username, password);
     });
 });
+
+//Error/Success messages.
+function setFormMessage(formElement, type, message) {
+  const messageElement = formElement.querySelector(".form__message");
+
+  messageElement.textContent = message;
+  messageElement.classList.remove("form__message--success", "form__message--error");
+  messageElement.classList.add(`form__message--${type}`);
+}
