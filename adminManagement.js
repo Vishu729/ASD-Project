@@ -1,7 +1,8 @@
 // Kennedy JS
 const db = firebase.firestore();
+var userID;
 
-//finds user and display information
+//finds user and display information.
 async function searchUser(username) {
   
   const snapshot = db.collection('customers');
@@ -18,13 +19,13 @@ async function searchUser(username) {
   } else {
     console.log("User Found!")
     userDoc.forEach(doc => {
-      //If found, acquires user info and initiates details to be rendered
+      //If found, acquires user info and initiates details to be rendered.
       setFormMessage(searchForm, "success", "User Found!");
-
+      userID = doc.id;
       console.log(doc.id, '=>', doc.data());
       var email = doc.data().email;
       var address = doc.data().address;
-      var phone = doc.data().phone;
+      var phone = String (doc.data().phone);
       var firstName = doc.data().firstName;
       var lastName = doc.data().lastName;
 
@@ -42,25 +43,30 @@ function createUser(){
 }
 
 //Update user information with information in text fields.
-async function updateUser(user, email, address, phone, firstName, lastName) {
-  const userRef = db.collection('customers');
-  await userRef.doc(user).set({
+async function updateUser(email, address, phone, firstName, lastName, form) {
+  const snapshot = db.collection('customers');
+  await snapshot.doc(userID).set({
     email: email,
     address: address,
     phone: phone,
     firstName: firstName,
-    lastName: lastName,
-  }); 
-  const doc = await userRef.doc(user).get();
+    lastName: lastName
+  });
+
+  const doc = await snapshot.doc(userID).get();
   console.log(doc.data());
+  console.log("Information updated");
+  setFormMessage(form, "success", "User Updated!");
+  window.location.href = "./userManagement.html";
+
 }
 
-//Delete user account
+//Delete user account.
 function deleteUser(){
-  
+
 }
 
-//Print User Information
+//Print User Information.
 async function renderDetails(email, address, phone, firstName, lastName) {
   
   const emailField = document.querySelector("#email");
@@ -90,29 +96,35 @@ async function clearFields(){
   lastNameField.value = "";
 }
 
-//Listens to submit button and initiates search user function.
+//Listens to submit button for search form.
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("#searchForm");
+  const userForm = document.querySelector("#userManagement");
+
+  //Search form listners
   searchForm.addEventListener("submit", e => {
       e.preventDefault();
       var username=document.getElementById("username").value;
       console.log("Searching for user...");
       searchUser(username);
   });
-});
 
-document.addEventListener("DOMContentLoaded", () => {
-  const searchForm = document.querySelector("#userManagement");
-  searchForm.addEventListener("submit", e => {
-      e.preventDefault();
-      var email=document.getElementById("email").value;
-      console.log("Updating users account information...");
-      updateUser(email);
-      console.log("User information has been updated!");
+
+  //userForm Listners
+  userForm.addEventListener("submit", e => {
+    e.preventDefault();
+    var email=document.getElementById("email").value;
+    var address=document.getElementById("address").value;
+    var phone=document.getElementById("phone").value;
+    var firstName=document.getElementById("firstName").value;
+    var lastName=document.getElementById("lastName").value;
+    console.log("Updating users account information...");
+    updateUser(email, address, firstName, lastName, phone, userForm);
+    console.log("User information has been updated!");
   });
 });
 
-//Error/Success message.
+//Error_Success message.
 function setFormMessage(formElement, type, message) {
   const messageElement = formElement.querySelector(".form__message");
 
@@ -120,3 +132,7 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.remove("form__message--success", "form__message--error");
   messageElement.classList.add(`form__message--${type}`);
 }
+
+
+
+

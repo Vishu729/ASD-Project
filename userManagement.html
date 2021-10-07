@@ -20,6 +20,8 @@
         measurementId: "G-2HNND2SMT8"
         };
         firebase.initializeApp(firebaseConfig);
+    
+
     </script>
     <script src="./adminManagement.js" defer></script>
 </head>
@@ -45,7 +47,7 @@
                <div class="form__message form__message--error"></div>
    
                <div class="form__input-group">
-                   <input type="text" class="form__input" autofocus placeholder="Email" id="email">
+                   <input disabled type="text" class="form__input" autofocus placeholder="Email" id="email">
                    <div class="form__input-error-message"></div>
                </div>
    
@@ -69,10 +71,6 @@
                    <div class="form__input-error-message"></div>
                </div>
    
-               <div class="form__input-group">
-                   <input type="password" class="form__input" autofocus placeholder="Password" id="password">
-                   <div class="form__input-error-message"></div>
-               </div>
 
                <!--Update, Delete, Register Buttons-->
                <button class="form__button" type="submit">Update</button>
