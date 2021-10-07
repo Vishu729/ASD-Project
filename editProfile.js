@@ -75,7 +75,7 @@ async function updateAuthenticator(user, firstName, lastName, email, address, ph
 
 //Update database 
 async function updateDatabase(user, firstName, lastName, email, address, phone) {
-  const customerRef = db. collection('customers');
+  const customerRef = db.collection('customers');
   await customerRef.doc(user).set({
     address: address,
     email: email,
