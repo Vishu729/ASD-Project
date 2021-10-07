@@ -72,14 +72,7 @@ async function clearFields(){
 }
 
 //Update user information with information in text fields.
-async function updateUser(email, address, phone, firstName, lastName){
-  const emailField = document.querySelector("#email");
-  const addressField = document.querySelector("#address");
-  const phoneField = document.querySelector("#phone");
-  const firstNameField = document.querySelector("#firstName");
-  const lastNameField = document.querySelector("#lastName");
 
-}
 
 //Listens to submit button and initiates search user function.
 document.addEventListener("DOMContentLoaded", () => {
