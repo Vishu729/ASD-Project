@@ -10,14 +10,13 @@ const db = firebase.firestore();
 // }
 
 async function renderDetails(email, address, phone, firstName, lastName) {
+  
   const emailField = document.querySelector("#email");
-  console.log("Called");
   const addressField = document.querySelector("#address");
   const phoneField = document.querySelector("#phone");
   const firstNameField = document.querySelector("#firstName");
   const lastNameField = document.querySelector("#lastName");
 
-  
 
   emailField.value = email;
   addressField.value = address;
@@ -34,15 +33,17 @@ async function searchUser(username) {
   const userDoc = await snapshot.where('email','==', username).get();
   
   if (userDoc.empty) {
-    //If user is not found
+    //If user is not found & clearFields if user not found.
     setFormMessage(searchForm, "error", "User Not found!");
-
     console.log("User Not Found!");
+    console.log("Clearing text fields...");
+    clearFields();
+    console.log("Text fields cleared!");
     
   } else {
     console.log("User Found!")
     userDoc.forEach(doc => {
-      //If user found then display details
+      //If found acquires user info and initates details to be rendered
       setFormMessage(searchForm, "success", "User Found!");
 
       console.log(doc.id, '=>', doc.data());
@@ -60,7 +61,28 @@ async function searchUser(username) {
   }
 }
 
-//Set error/success messages 
+//Update user data function.
+// function updateUser(){
+//   var userNow = firebase
+// }
+
+
+//Clear text fields function.
+function clearFields(){
+  const emailField = document.querySelector("#email");
+  const addressField = document.querySelector("#address");
+  const phoneField = document.querySelector("#phone");
+  const firstNameField = document.querySelector("#firstName");
+  const lastNameField = document.querySelector("#lastName");
+
+  emailField.value = "";
+  addressField.value = "";
+  phoneField.value = "";
+  firstNameField.value = "";
+  lastNameField.value = "";
+}
+
+//Error/Success message.
 function setFormMessage(formElement, type, message) {
   const messageElement = formElement.querySelector(".form__message");
 
@@ -69,7 +91,7 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.add(`form__message--${type}`);
 }
 
-//listen to submit button press
+//Listens to submit button and initiates search user function.
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("#searchForm");
   searchForm.addEventListener("submit", e => {
