@@ -1,5 +1,11 @@
 // Kennedy JS
-const db = firebase.firestore();
+const admin = require('firebase-admin');
+const serviceAccount = require('./ServiceAccount.json');
+admin.initialiazeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+const db = admin.firestore();
+//const db = firebase.firestore();
 var userID;
 
 //finds user and display information.
@@ -18,29 +24,38 @@ async function searchUser(username) {
     
   } else {
     console.log("User Found!")
-    userDoc.forEach(doc => {
-      //If found, acquires user info and initiates details to be rendered.
-      setFormMessage(searchForm, "success", "User Found!");
-      userID = doc.id;
-      console.log(doc.id, '=>', doc.data());
-      var email = doc.data().email;
-      var address = doc.data().address;
-      var phone = String (doc.data().phone);
-      var firstName = doc.data().firstName;
-      var lastName = doc.data().lastName;
+    admin.auth().getUserByEmail(email)
+  .then((userRecord) => {
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+  })
+  .catch((error) => {
+    console.log('Error fetching user data:', error);
+  });
 
-      console.log("Rendering details...");
-      renderDetails(email, address, phone, firstName, lastName);
-      console.log("details rendered");
 
-    });
+
+    // userDoc.forEach(doc => {
+    //   //If found, acquires user info and initiates details to be rendered.
+    //   setFormMessage(searchForm, "success", "User Found!");
+    //   userID = doc.id;
+    //   console.log(doc.id, '=>', doc.data());
+    //   var email = doc.data().email;
+    //   var address = doc.data().address;
+    //   var phone = doc.data().phone;
+    //   var firstName = doc.data().firstName;
+    //   var lastName = doc.data().lastName;
+
+
+
+    //   console.log("Rendering details...");
+    //   renderDetails(email, address, phone, firstName, lastName);
+    //   console.log("details rendered");
+
+    // });
   }
 }
 
-//create user account.
-function createUser(){
-
-}
 
 //Update user information with information in text fields.
 async function updateUser(email, address, phone, firstName, lastName, form) {
@@ -101,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("#searchForm");
   const userForm = document.querySelector("#userManagement");
 
-  //Search form listners
+  //Search form listeners
   searchForm.addEventListener("submit", e => {
       e.preventDefault();
       var username=document.getElementById("username").value;
@@ -110,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  //userForm Listners
+  //userForm Listeners
   userForm.addEventListener("submit", e => {
     e.preventDefault();
     var email=document.getElementById("email").value;
@@ -119,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var firstName=document.getElementById("firstName").value;
     var lastName=document.getElementById("lastName").value;
     console.log("Updating users account information...");
-    updateUser(email, address, firstName, lastName, phone, userForm);
+    updateUser(email, address, phone, firstName, lastName, userForm);
     console.log("User information has been updated!");
   });
 });
@@ -133,6 +148,14 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.add(`form__message--${type}`);
 }
 
+admin.auth().getUserByEmail(email)
+  .then((userRecord) => {
+    // See the UserRecord reference doc for the contents of userRecord.
+    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+  })
+  .catch((error) => {
+    console.log('Error fetching user data:', error);
+  });
 
 
 
