@@ -16,7 +16,7 @@ async function getCartItems() {
 
 function setCartCounter(ctr) {
     // cart-qty-number
-    document.querySelector(".cart-qty-number").innerText = totalCount;
+    
     
     console.log(ctr);
 let doc =document.createElement("div");
