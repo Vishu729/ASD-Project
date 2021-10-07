@@ -1,15 +1,15 @@
 // Kennedy JS
-const admin = require('firebase-admin');
-const serviceAccount = require('./ServiceAccount.json');
-admin.initialiazeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-const db = admin.firestore();
-//const db = firebase.firestore();
+// const admin = require('firebase-admin');
+// const serviceAccount = require('./ServiceAccount.json');
+// admin.initialiazeApp({
+//     credential: admin.credential.cert(serviceAccount)
+// });
+// const db = admin.firestore();
+const db = firebase.firestore();
 var userID;
 
 //finds user and display information.
-async function searchUser(username) {
+async function searchUser(username, form) {
   
   const snapshot = db.collection('customers');
   const userDoc = await snapshot.where('email','==', username).get();
@@ -24,35 +24,23 @@ async function searchUser(username) {
     
   } else {
     console.log("User Found!")
-    admin.auth().getUserByEmail(email)
-  .then((userRecord) => {
-    // See the UserRecord reference doc for the contents of userRecord.
-    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-  })
-  .catch((error) => {
-    console.log('Error fetching user data:', error);
-  });
+    userDoc.forEach(doc => {
+      //If found, acquires user info and initiates details to be rendered.
+      setFormMessage(searchForm, "success", "User Found!");
+      userID = doc.id;
+      console.log(doc.id, '=>', doc.data());
+      var email = doc.data().email;
+      var address = doc.data().address;
+      var phone = doc.data().phone;
+      var firstName = doc.data().firstName;
+      var lastName = doc.data().lastName;
 
 
 
-    // userDoc.forEach(doc => {
-    //   //If found, acquires user info and initiates details to be rendered.
-    //   setFormMessage(searchForm, "success", "User Found!");
-    //   userID = doc.id;
-    //   console.log(doc.id, '=>', doc.data());
-    //   var email = doc.data().email;
-    //   var address = doc.data().address;
-    //   var phone = doc.data().phone;
-    //   var firstName = doc.data().firstName;
-    //   var lastName = doc.data().lastName;
-
-
-
-    //   console.log("Rendering details...");
-    //   renderDetails(email, address, phone, firstName, lastName);
-    //   console.log("details rendered");
-
-    // });
+      console.log("Rendering details...");
+      renderDetails(email, address, phone, firstName, lastName);
+      console.log("details rendered");
+    });
   }
 }
 
@@ -72,8 +60,8 @@ async function updateUser(email, address, phone, firstName, lastName, form) {
   console.log(doc.data());
   console.log("Information updated");
   setFormMessage(form, "success", "User Updated!");
-  window.location.href = "./userManagement.html";
-
+  clearFields();
+  console.log("Fields Cleared");
 }
 
 //Delete user account.
@@ -148,14 +136,14 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.add(`form__message--${type}`);
 }
 
-admin.auth().getUserByEmail(email)
-  .then((userRecord) => {
-    // See the UserRecord reference doc for the contents of userRecord.
-    console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-  })
-  .catch((error) => {
-    console.log('Error fetching user data:', error);
-  });
+// admin.auth().getUserByEmail(email)
+//   .then((userRecord) => {
+//     // See the UserRecord reference doc for the contents of userRecord.
+//     console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
+//   })
+//   .catch((error) => {
+//     console.log('Error fetching user data:', error);
+//   });
 
 
 
