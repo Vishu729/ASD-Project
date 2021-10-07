@@ -37,7 +37,7 @@ function reauthenticate(editForm, password, user) {
   
     var firstName = firstNameField.value;
     var lastName = lastNameField.value;
-    var email = emailField.value;
+    var email = emailField.value.toLowerCase();
     var address = addressField.value;
     var phone = phoneField.value;
 
@@ -153,6 +153,7 @@ function setCurrentDetails() {
 //logout function
 function logout() {
     firebase.auth().signOut();
+    window.location.href = "./login.html";
 }
 
 //Set error/success messages 

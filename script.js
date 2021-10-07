@@ -1,5 +1,26 @@
 import {db} from "./firebase.js";
-import { collection, getDocs,getDoc, doc, setDoc ,updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+import { collection, getDocs,getDoc, doc, setDoc ,updateDoc } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-auth.js";
+
+const auth = getAuth();
+
+var loggedIn;
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in.  
+      if(user != null){
+        console.log(user.email);
+        loggedIn = true;
+      }
+  
+    } else {
+      // No user is signed in.
+        console.log("Not logged in");
+        loggedIn = false;
+    }
+});
+
 async function  getItems(){
     const querySnapshot = await getDocs(collection(db, "items"));
     let items=[];
@@ -20,7 +41,7 @@ async function  getItems(){
 async function addToCart(item){
     console.log("add to cart function...")
     //let cartItem = db.collection("cart-items").doc(item.id);
-    const cartItem = doc(db, "cart-items",item.id);
+    const cartItem = doc(db, "cart-item",item.id);
     const docSnap = await getDoc(cartItem);
  
         if(docSnap.exists()){
@@ -45,7 +66,7 @@ function generateItems(items){
     
     items.forEach((item)=>{
         let doc=document.createElement("div");
-        doc.classList.add("main-product", "mr-4");
+        doc.classList.add("home-products", "mr-4");
         doc.innerHTML=`
             <div class="product-image w-48 h-52 bg-white rounded-lg p-4">
                 <img class="w-full h-full object-contain" src="${item.image}" >
@@ -76,3 +97,15 @@ function generateItems(items){
   
 }
 getItems();
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector("#Account").addEventListener("click", e => {
+        e.preventDefault();
+        if (loggedIn) {
+            window.location.href = "./editProfile.html";
+        } else {
+            window.location.href = "./loginOption.html";
+        }
+        
+    });
+});

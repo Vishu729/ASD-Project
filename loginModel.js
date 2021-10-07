@@ -1,10 +1,9 @@
 //Christopher & Kelvin JS
 const db = firebase.firestore();
-const form = document.getElementById('form');
-const username = document.getElementById('username');
-const email = document.getElementById('email');
-const password = document.getElementById('password');
-const password2 = document.getElementById('password2');
+const loginForm = document.querySelector("#login");
+const createAccountForm = document.querySelector("#createAccount");
+
+
 var passwordStrength;
 // Firebase login debug.
 firebase.auth().onAuthStateChanged(function(user) {
@@ -24,27 +23,40 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 //Login Functionality - using firebase to authenticate and validate user.
-function login(loginForm, username, password) {
+function login(username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
         // if login is successful, set success message and send to next page
         setFormMessage(loginForm, "success", "logged in");
-        window.location.href = "./editProfile.html";
+        window.location.href = "./index.html";
+        return "Logged In";
     })
     .catch(function(error) {
         // Handle Errors here. Sets error messages made by firebase authentication
         //var errorCode = error.code;
         var errorMessage = error.message;
     
-        setFormMessage(loginForm, "error", errorMessage);
+        setFormMessage("error", errorMessage);
+        return "Incorrect Details";
     });
 }
 
-function register(form, firstName, lastName, email, address, phone, password) {
+function register(firstName, lastName, email, address, phone, password) {
     //check if details are correct
     // check if email is correct
     // check if password is strong
-    authenticateUser(form, firstName, lastName, email, address, phone, password)
+    if (!isEmail(email)) {
+      setFormMessage(createAccountForm, "error", "Invalid email syntax");
+      return "Invalid Email";
+    }
+    else if (passwordStrength === 0) {
+      setFormMessage(createAccountForm, "error", "Password too weak");
+      return "Weak Password";
+    } 
+    else {
+      authenticateUser(firstName, lastName, email, address, phone, password);
+      return "Registered";
+    }
 }
 
 async function updateDatabase (firstName, lastName, email, address, phone) {
@@ -56,22 +68,26 @@ async function updateDatabase (firstName, lastName, email, address, phone) {
         phone: phone
     });
     console.log('Added document with ID: ', customerRef.id);
+    window.location.href = "./index.html";
+    return "Database Updated";
 }
 
-async function authenticateUser(form, firstName, lastName, email, address, phone, password) {
+async function authenticateUser(firstName, lastName, email, address, phone, password) {
     const auth = firebase.auth();
     auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
         //call succuss
         console.log(firstName + " -> " + lastName + " -> " + email + " -> " + address + " -> " + phone + " -> " + password);
-        setFormMessage(form, "success", "User has been created");
+        setFormMessage(createAccountForm, "success", "User has been created");
         updateDatabase(firstName, lastName, email, address, phone);
+        return "User Authenticated";
 
     })
     .catch((error) => {
         const errorMessage = error.message;
         //call error dispaly
-        setFormMessage(form, "error", errorMessage);
+        setFormMessage(createAccountForm, "error", errorMessage);
+        return "Error";
     });
 
 }
@@ -220,8 +236,8 @@ function clearInputError(inputElement) {
 //listen to submit button press
 //listen to submit button press in login
 document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.querySelector("#login");
-    const createAccountForm = document.querySelector("#createAccount");
+    //const loginForm = document.querySelector("#login");
+    //const createAccountForm = document.querySelector("#createAccount");
     
     //opens registration tab and closes login tab
     document.querySelector("#linkCreateAccount").addEventListener("click", e => {
@@ -241,24 +257,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Perform Fetch login
         // Grab username and password from text field
-        var username=document.getElementById("username").value;
+        var username=document.getElementById("email").value.toLowerCase();
         var password=document.getElementById("password").value;
 
         //validate login
-        login(loginForm, username, password);
+        login(username, password);
     });
 
     createAccountForm.addEventListener("submit", e => {
         e.preventDefault();
-        var firstName=document.getElementById("signupName").value;
+        var firstName=document.getElementById("signupFirstName").value;
+        var lastName =document.getElementById("signupLastName").value;
         var password=document.getElementById("signupPass").value;
-        var email=document.getElementById("signupEmail").value;
+        var email=document.getElementById("signupEmail").value.toLowerCase();
         var phone=document.getElementById("signupPhone").value;
-        var address = "add";
-        var lastName = "bruh";
+        var address =document.getElementById("signupAddress").value;
         // Perform Fetch login
         // Grab username and password from text field
-        authenticateUser(createAccountForm, firstName, lastName, email, address, phone, password);
+        register(firstName, lastName, email, address, phone, password);
     });
 });
 

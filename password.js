@@ -27,6 +27,7 @@ function updatePassword(passwordForm, password) {
         .then(() => {
             //update successful
             setFormMessage(passwordForm, "success", "Password Updated");
+            logout();
         })
         .catch((error) => {
             var errorMessage = error.message;
@@ -60,6 +61,7 @@ function reauthenticate(passwordForm, newPassword, currentPassword) {
       var errorMessage = error.message;
       console.log("reauthenticate error");
       setFormMessage(passwordForm, "error", errorMessage);
+      return "error";
     });
 }
 
@@ -85,6 +87,7 @@ function validatePassword(password, inputElement) {
 //Logout functionality, unvalidate user
 function logout() {
     firebase.auth().signOut();
+    window.location.href = "./login.html";
 }
 
 //Set error/success messages 

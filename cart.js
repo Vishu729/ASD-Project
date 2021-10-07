@@ -1,5 +1,5 @@
 import {db} from "./firebase.js";
-import { collection, getDocs,getDoc, doc, setDoc,deleteDoc ,updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.0.2/firebase-firestore.js";
+import { collection, getDocs,getDoc, doc, setDoc,deleteDoc ,updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js";
 async function getCartItems() {
     await onSnapshot(collection(db, "cart-item"), (doc) => {
         let cartItems = [];
@@ -20,11 +20,43 @@ function getTotalCost(items){
     })
     document.querySelector(".total-cost-amount").innerHTML = numeral(totalcost).format("$0,0.00");
 }
+
+async function decreaseCount(itemId){
+    const cartItem = doc(db, "cart-item",itemId);
+    const docSnap = await getDoc(cartItem);
+    if(docSnap.exists()){
+        if(docSnap.data().quantity>1){
+            updateDoc(cartItem,{
+                quantity:docSnap.data().quantity-1
+            })
+        }
+    }
+}
+
+async function increaseCount(itemId){
+    const cartItem = doc(db, "cart-item",itemId);
+    const docSnap = await getDoc(cartItem);
+    if(docSnap.exists()){
+        if(docSnap.data().quantity>0){
+            updateDoc(cartItem,{
+                quantity:docSnap.data().quantity+1
+            })
+        }
+    }
+
+}
+
+async function deleteItem(itemId){
+    console.log("delete")
+    await deleteDoc(doc(db,"cart-item",itemId));
+
+}
+
 function generatCartItems(cartItems) {
     let itemsHTML = "";
     cartItems.forEach((item) => {
         itemsHTML += `
-            <div class="cart-products flex items-center pb-4 border-b border-gray-100">
+            <div class="cart-item flex items-center pb-4 border-b border-gray-100">
                 <div class="cart-products-image w-40 h-24 bg-white p-4 rounded-lg">
                     <img class="w-full h-full object-contain" src="${item.image}">
                 </div>
@@ -56,5 +88,27 @@ function generatCartItems(cartItems) {
     })
     document.querySelector(".cart-products").innerHTML = itemsHTML;
     createEventListeners();    
+}
+
+function createEventListeners(){
+    let decreaseButtons = document.querySelectorAll(".cart-products-decrease");
+    let increaseButtons = document.querySelectorAll(".cart-products-increase");
+    let deleteButtons = document.querySelectorAll(".cart-products-delete");
+
+    decreaseButtons.forEach((button)=>{
+        button.addEventListener("click",()=>{
+            decreaseCount(button.dataset.id);
+        })
+    })
+    increaseButtons.forEach((button)=>{
+        button.addEventListener("click",()=>{
+            increaseCount(button.dataset.id);
+        })
+    })
+    deleteButtons.forEach((button)=>{
+        button.addEventListener("click",()=>{
+            deleteItem(button.dataset.id);
+        })
+    })
 }
 getCartItems();
