@@ -10,18 +10,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.1.1/dist/jdenticon.min.js" async
     integrity="sha384-l0/0sn63N3mskDgRYJZA6Mogihu0VY3CusdLMiwpJ9LFPklOARUcOiWEIGGmFELx"
     crossorigin="anonymous">
-</script>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-</script>
-</head>
+    </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script type="module" src ="./firebase.js"></script>
+    <script type="module" src="./script.js"></script>    
+    <script type="module" src="./header.js"></script>    </head>
 <body>
 
 <!-- Header Logo-->
@@ -169,7 +162,7 @@
                             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                           </svg>
                     </h1>
-                    <div class="cat mt-5 flex">
+                    <div class="cat flex flex-wrap">
                         <div class="computing h-20 w-20 bg-white rounded-xl flex justify-center items-center mt-5 mr-6">
                             <svg class="h-12 w-12 text-gray-500" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -216,90 +209,8 @@
                 <div class="Today's Deals mt-5">
                     <h1 class="text-2xl font-bold text-gray-700 mb-5">Today's Deals ⚡</h1>
                     <div class="home-products flex">
-                        <div class="product 1 justify-center items-center mt-5 mr-6">
-                            <div class="product-img w-48 h-52 bg-white rounded-lg p-4">
-                                <img class="w-full h-full object-contain " src="https://plecom.imgix.net/iil-235554-643083.jpg?fit=fillmax&fill=solid&fill-color=ffffff&auto=format&w=1000&h=1000">
-                            </div>
-                            <div class="product-name text-gray-700 font-bold mt-2 text-sm">
-                                MSI GeForce RTX 3090 
-                            </div>
-                            <div class="product-type text-green-700 font-bold">
-                                Graphics Card
-                            </div>
-                            <div class="product-stars text-yellow-300  font-bold my-1">
-                                ⭐⭐⭐⭐⭐ 5
-                            </div>
-                            <div class="product-price text-gray-700 font-bold">
-                                $3,599.00
-                            </div>
-                            <div class="Add to cart w-48 flex items-center justify-center 
-                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
-                             Add to cart
-                            </div>
-                        </div>
-                        <div class="product 2 justify-center items-center mt-5 mr-6">  
-                            <div class="product-img w-48 h-52 bg-white rounded-lg p-4">
-                                <img class="w-full h-full object-contain " src="https://www.bigw.com.au/medias/sys_master/images/images/h1e/h19/17317862703134.jpg">
-                            </div>
-                            <div class="product-name text-gray-700 font-bold mt-2 text-sm">
-                                PS5 
-                            </div>
-                            <div class="product-type text-green-700 font-bold">
-                                Game Console
-                            </div>
-                            <div class="product-stars text-yellow-300  font-bold my-1">
-                                ⭐⭐⭐⭐⭐ 4.5
-                            </div>
-                            <div class="product-price text-gray-700 font-bold">
-                                $999.00
-                            </div>
-                            <div class="Add to cart w-48 flex items-center justify-center 
-                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
-                             Add to cart
-                            </div>
-                        </div>
-                        <div class="product 3 justify-center items-center mt-5 mr-6">
-                            <div class="product-img w-48 h-52 bg-white rounded-lg p-4">
-                                <img class="w-full h-full object-contain " src="https://cdn.rent4keeps.com.au/wp-content/uploads/2020/04/Xbox-One-S-2TB-Console.jpg">
-                            </div>
-                            <div class="product-name text-gray-700 font-bold mt-2 text-sm">
-                                Xbox One 
-                            </div>
-                            <div class="product-type text-green-700 font-bold">
-                                Game Console
-                            </div>
-                            <div class="product-stars text-yellow-300 font-bold my-1">
-                                ⭐⭐⭐⭐⭐ 4
-                            </div>
-                            <div class="product-price text-gray-700 font-bold">
-                                $899.00
-                            </div>
-                            <div class="Add to cart w-48 flex items-center justify-center 
-                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
-                             Add to cart
-                            </div>
-                        </div>  
-                        <div class="product 4 justify-center items-center mt-5 mr-6"> 
-                            <div class="product-img w-48 h-52 bg-white rounded-lg p-4">
-                                <img class="w-full h-full object-contain " src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/440677/sub/goods_440677_sub14.jpg?width=1600&impolicy=quality_75">
-                            </div>
-                            <div class="product-name text-gray-700 font-bold mt-2 text-sm">
-                                UTxJJK T-shirt 
-                            </div>
-                            <div class="product-type text-green-700 font-bold">
-                                T-shirt
-                            </div>
-                            <div class="product-stars text-yellow-300 font-bold my-1">
-                                ⭐⭐⭐⭐⭐ 5
-                            </div>
-                            <div class="product-price text-gray-700 font-bold">
-                                $19.99
-                            </div>
-                            <div class="Add to cart w-48 flex items-center justify-center 
-                            bg-yellow-500 rounded text-white cursor-pointer hover:bg-yellow-700">
-                             Add to cart
-                            </div>
-                        </div>
+                        
+                        
                     </div>
                 </div>
             </div>
