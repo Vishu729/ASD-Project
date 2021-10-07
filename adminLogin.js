@@ -7,7 +7,7 @@ firebase.auth().onAuthStateChanged(function(user) {
       var user = firebase.auth().currentUser;
   
       if(user != null){
-        console.log(user.email);
+        console.log("Logged in as: " + user.email);
       }
   
     } else {
@@ -18,18 +18,18 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 //Login function 
-function login(loginForm, username, password) {
+function login(adminLogin, username, password) {
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
         // if login is successful, set success message and send to next page
-        setFormMessage(loginForm, "success", "logged in");
-        window.location.href = "./adminManagement.html";
+        setFormMessage(adminLogin, "success", "logged in");
+        window.location.href = "./admin.html";
     })
     .catch(function(error) {
         //Error if log is not successful.
         var errorMessage = error.message;
     
-        setFormMessage(loginForm, "error", errorMessage);
+        setFormMessage(adminLogin, "error", errorMessage);
     });  
 }
 
@@ -37,6 +37,7 @@ function login(loginForm, username, password) {
 function logout() {
     firebase.auth().signOut();
     window.location.href = "./adminLogin.html";
+    console.log("Logout successful!");
 }
 
 //listen to submit button press in login

@@ -42,9 +42,17 @@ function createUser(){
 }
 
 //Update user information with information in text fields.
-function updateUser(email){
-  const emailField = document.querySelector("#email");
-  email = emailField.value;
+async function updateUser(user, email, address, phone, firstName, lastName) {
+  const userRef = db.collection('customers');
+  await userRef.doc(user).set({
+    email: email,
+    address: address,
+    phone: phone,
+    firstName: firstName,
+    lastName: lastName,
+  }); 
+  const doc = await userRef.doc(user).get();
+  console.log(doc.data());
 }
 
 //Delete user account
