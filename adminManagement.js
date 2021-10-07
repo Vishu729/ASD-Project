@@ -18,7 +18,7 @@ async function searchUser(username) {
   } else {
     console.log("User Found!")
     userDoc.forEach(doc => {
-      //If found acquires user info and initates details to be rendered
+      //If found, acquires user info and initiates details to be rendered
       setFormMessage(searchForm, "success", "User Found!");
 
       console.log(doc.id, '=>', doc.data());
@@ -28,18 +28,29 @@ async function searchUser(username) {
       var firstName = doc.data().firstName;
       var lastName = doc.data().lastName;
 
-      console.log("Rendering");
+      console.log("Rendering details...");
       renderDetails(email, address, phone, firstName, lastName);
-      console.log("Rendered");
+      console.log("details rendered");
 
     });
   }
 }
 
-//Update user data function.
-// function updateUser(){
-//   var userNow = firebase
-// }
+//create user account.
+function createUser(){
+
+}
+
+//Update user information with information in text fields.
+function updateUser(email){
+  const emailField = document.querySelector("#email");
+  email = emailField.value;
+}
+
+//Delete user account
+function deleteUser(){
+  
+}
 
 //Print User Information
 async function renderDetails(email, address, phone, firstName, lastName) {
@@ -71,17 +82,25 @@ async function clearFields(){
   lastNameField.value = "";
 }
 
-//Update user information with information in text fields.
-
-
 //Listens to submit button and initiates search user function.
 document.addEventListener("DOMContentLoaded", () => {
   const searchForm = document.querySelector("#searchForm");
   searchForm.addEventListener("submit", e => {
       e.preventDefault();
       var username=document.getElementById("username").value;
-      console.log(username);
+      console.log("Searching for user...");
       searchUser(username);
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchForm = document.querySelector("#userManagement");
+  searchForm.addEventListener("submit", e => {
+      e.preventDefault();
+      var email=document.getElementById("email").value;
+      console.log("Updating users account information...");
+      updateUser(email);
+      console.log("User information has been updated!");
   });
 });
 
@@ -93,4 +112,3 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.remove("form__message--success", "form__message--error");
   messageElement.classList.add(`form__message--${type}`);
 }
-
