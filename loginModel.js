@@ -1,11 +1,11 @@
 //Christopher & Kelvin JS
-
+const db = firebase.firestore();
 const form = document.getElementById('form');
 const username = document.getElementById('username');
 const email = document.getElementById('email');
 const password = document.getElementById('password');
 const password2 = document.getElementById('password2');
-
+var passwordStrength;
 // Firebase login debug.
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
@@ -25,7 +25,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 //Login Functionality - using firebase to authenticate and validate user.
 function login(loginForm, username, password) {
-    console.log()
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then(() => {
         // if login is successful, set success message and send to next page
@@ -41,13 +40,56 @@ function login(loginForm, username, password) {
     });
 }
 
+function register(form, firstName, lastName, email, address, phone, password) {
+    //check if details are correct
+    // check if email is correct
+    // check if password is strong
+    authenticateUser(form, firstName, lastName, email, address, phone, password)
+}
+
+async function updateDatabase (firstName, lastName, email, address, phone) {
+    const customerRef = await db.collection('customers').add({
+        address: address,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone
+    });
+    console.log('Added document with ID: ', customerRef.id);
+}
+
+async function authenticateUser(form, firstName, lastName, email, address, phone, password) {
+    const auth = firebase.auth();
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(() => {
+        //call succuss
+        console.log(firstName + " -> " + lastName + " -> " + email + " -> " + address + " -> " + phone + " -> " + password);
+        setFormMessage(form, "success", "User has been created");
+        updateDatabase(firstName, lastName, email, address, phone);
+
+    })
+    .catch((error) => {
+        const errorMessage = error.message;
+        //call error dispaly
+        setFormMessage(form, "error", errorMessage);
+    });
+
+}
+
 //Logout functionality, unvalidate user
 function logout() {
     firebase.auth().signOut();
 }
 
-function googleRegistration(){
-    const auth = firebase.getAuth();
+function registration(){
+        const customerRef = db.collection('customers')
+        .add({
+            address: 'address',
+            email: 'email',
+            firstName: 'firstName',
+            lastName: 'lastName',
+            phone: 'phone'
+        });
 }
 
 //Set error/success messages 
@@ -63,7 +105,58 @@ function isEmail(email) {
 	return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 }
 
-function checkInputs() {
+function checkUsername(inputElement, value) {
+    if(value === '') {
+        setInputError(inputElement, 'Username cannot be blank');
+    } else {
+        clearInputError(inputElement);
+    }
+}
+
+function checkEmail(inputElement, value) {
+    if(value === '') {
+		setInputError(inputElement, 'Email cannot be blank');
+	} else if (!isEmail(value)) {
+		setInputError(inputElement, 'Not a valid email');
+	} else {
+		clearInputError(inputElement);
+	}
+}
+
+function validatePassword(inputElement, value) {
+    let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
+    let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))');
+
+    if(strongPassword.test(value)){
+        setInputError(inputElement, "Strong Password", 2);
+        passwordStrength = 2;
+    }
+    else if (mediumPassword.test(value)){
+        setInputError(inputElement, "Medium Password", 1);
+        passwordStrength = 1;
+    } 
+    else {
+        setInputError(inputElement, "Weak Password", 0);
+        passwordStrength = 0;
+    }
+}
+
+
+function comparePassword(inputElement, value) {
+    const singupPass = document.getElementById('signupPass');
+    var pass1 = singupPass.value;
+    console.log(value + " -> " + pass1);
+    if (value === pass1) {
+        clearInputError(inputElement);
+    } else {
+        setInputError(inputElement, "Password does not match");
+    }
+}
+
+
+
+
+function checkInputs(inputElement) {
 	// trim to remove the whitespaces
 	const usernameValue = username.value.trim();
 	const emailValue = email.value.trim();
@@ -71,31 +164,31 @@ function checkInputs() {
 	const password2Value = password2.value.trim();
 	
 	if(usernameValue === '') {
-		setErrorFor(username, 'Username cannot be blank');
+		setInputError(inputElement, 'Username cannot be blank');
 	} else {
-		setSuccessFor(username);
+		clearInputError(inputElement);
 	}
 	
 	if(emailValue === '') {
-		setErrorFor(email, 'Email cannot be blank');
+		setInputError(inputElement, 'Email cannot be blank');
 	} else if (!isEmail(emailValue)) {
-		setErrorFor(email, 'Not a valid email');
+		setInputError(inputElement, 'Not a valid email');
 	} else {
-		setSuccessFor(email);
+		clearInputError(inputElement);
 	}
 	
 	if(passwordValue === '') {
-		setErrorFor(password, 'Password cannot be blank');
+		setInputError(inputElement, 'Password cannot be blank');
 	} else {
-		setSuccessFor(password);
+		clearInputError(inputElement);
 	}
 	
 	if(password2Value === '') {
-		setErrorFor(password2, 'Password2 cannot be blank');
+		setInputError(inputElement, 'Password2 cannot be blank');
 	} else if(passwordValue !== password2Value) {
-		setErrorFor(password2, 'Passwords does not match');
+		setInputError(inputElement, 'Passwords does not match');
 	} else{
-		setSuccessFor(password2);
+		clearInputError(inputElement);
 	}
 }
 
@@ -129,12 +222,6 @@ function clearInputError(inputElement) {
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.querySelector("#login");
     const createAccountForm = document.querySelector("#createAccount");
-
-document.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        checkInputs();
-});
     
     //opens registration tab and closes login tab
     document.querySelector("#linkCreateAccount").addEventListener("click", e => {
@@ -160,18 +247,43 @@ document.addEventListener('submit', e => {
         //validate login
         login(loginForm, username, password);
     });
+
+    createAccountForm.addEventListener("submit", e => {
+        e.preventDefault();
+        var firstName=document.getElementById("signupName").value;
+        var password=document.getElementById("signupPass").value;
+        var email=document.getElementById("signupEmail").value;
+        var phone=document.getElementById("signupPhone").value;
+        var address = "add";
+        var lastName = "bruh";
+        // Perform Fetch login
+        // Grab username and password from text field
+        authenticateUser(createAccountForm, firstName, lastName, email, address, phone, password);
+    });
 });
 
 //sets a check for queries
 document.querySelectorAll(".form__input").forEach(inputElement => {
-    inputElement.addEventListener("blur", e => {
-        //sets a check for phone number
-        if (e.target.id === "signupPhone" && e.target.value.length > 0 && e.target.value.length < 10) {
-            setInputError(inputElement, "Phone number must be valid");
+    //add first and last name
+    //add address
+    inputElement.addEventListener("input", e => {
+        if(e.target.id === "signupName" && e.target.value.length !== 0){
+            checkUsername(inputElement, e.target.value);
+        } 
+        else if (e.target.id === "signupEmail" && e.target.value.length !== 0) {
+            checkEmail(inputElement, e.target.value);
+        }
+        else if (e.target.id === "signupPass" && e.target.value.length !== 0) {
+            validatePassword(inputElement, e.target.value);
+            pass1 = e.target.value;
+        }
+        else if (e.target.id === "signupPass2" && e.target.value.length !== 0) {
+            comparePassword(inputElement, e.target.value);
+        }
+        else if (e.target.id === "signupPass"){
+            clearInputError(inputElement);
         }
     });
-
-    inputElement.addEventListener("input", e => {
-        clearInputError(inputElement);
-    });
 });
+
+
