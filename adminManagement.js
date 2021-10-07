@@ -22,14 +22,14 @@ async function searchUser(username) {
       setFormMessage(searchForm, "success", "User Found!");
 
       console.log(doc.id, '=>', doc.data());
+      var email = doc.data().email;
       var address = doc.data().address;
-      var username = doc.data().email;
+      var phone = doc.data().phone;
       var firstName = doc.data().firstName;
       var lastName = doc.data().lastName;
-      var phone = doc.data().phone;
 
       console.log("Rendering");
-      renderDetails(address, username, firstName, lastName, phone);
+      renderDetails(email, address, phone, firstName, lastName);
       console.log("Rendered");
 
     });
@@ -69,6 +69,16 @@ async function clearFields(){
   phoneField.value = "";
   firstNameField.value = "";
   lastNameField.value = "";
+}
+
+//Update user information with information in text fields.
+async function updateUser(email, address, phone, firstName, lastName){
+  const emailField = document.querySelector("#email");
+  const addressField = document.querySelector("#address");
+  const phoneField = document.querySelector("#phone");
+  const firstNameField = document.querySelector("#firstName");
+  const lastNameField = document.querySelector("#lastName");
+
 }
 
 //Listens to submit button and initiates search user function.
