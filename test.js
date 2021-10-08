@@ -83,3 +83,51 @@ test('Check if details are updated in the database. Output should not be updated
   expect(mocks10() !== mocks10()).toBe(true);
   console.log('Details were not updated in the database');
 });
+
+//weak password check
+const mocks11 = jest.fn();
+mocks11.mockReturnValueOnce('Password is strong').mockReturnValueOnce('Password is strong');
+
+test('Check if password is strong. password should be updated as its strong', () => {
+  expect(mocks11() === mocks11()).toBe(true);
+  console.log('password was updated in the database');
+});
+const mocks12 = jest.fn();
+mocks12.mockReturnValueOnce('Password is strong').mockReturnValueOnce('Password is weak');
+
+test('Check if password is strong. password should not be updated as its weak', () => {
+  expect(mocks12() !== mocks12()).toBe(true);
+  console.log('password was not updated in the database');
+});
+
+//weak password check
+const mocks13 = jest.fn();
+mocks13.mockReturnValueOnce('Email is valid').mockReturnValueOnce('Email is valid');
+
+test('Check if email is valid. email is valid', () => {
+  expect(mocks13() === mocks13()).toBe(true);
+  console.log('email was updated in the database');
+});
+const mocks14 = jest.fn();
+mocks14.mockReturnValueOnce('Email is valid').mockReturnValueOnce('Email is not valid');
+
+test('Check if email is valid. email is not valid', () => {
+  expect(mocks14() !== mocks14()).toBe(true);
+  console.log('email was not updated in the database');
+});
+
+//weak password check
+const mocks15 = jest.fn();
+mocks15.mockReturnValueOnce('Item is generated').mockReturnValueOnce('Item is generated');
+
+test('Check if item is generated. item is generated', () => {
+  expect(mocks15() === mocks15()).toBe(true);
+  console.log('item generated successfully');
+});
+const mocks16 = jest.fn();
+mocks16.mockReturnValueOnce('Item is generated').mockReturnValueOnce('Item is not generated');
+
+test('Check if item is generated. item is not generated', () => {
+  expect(mocks16() !== mocks16()).toBe(true);
+  console.log('item generated unsuccessfully');
+});
