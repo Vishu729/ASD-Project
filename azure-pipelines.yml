@@ -17,19 +17,11 @@ steps:
 - task: PublishBuildArtifacts@1
 
 - task: Npm@1
-    displayName: 'npm run test'
-    inputs:
-      command: 'test'
-      arguements: '--no-build --configuration $(buildConfiguration)'
-      publishTestResults: true 
-      projects: '**/*test.js'
-
-#- task: Npm@1
-#  displayName: npm run test
-#  inputs:
-#    command: 'custom'
-#    workingDir: 'test.js'
-#    customCommand: 'run test'
+  displayName: npm run test
+  inputs:
+    command: 'custom'
+    workingDir: 'test.js'
+    customCommand: 'run test'
 
 - task: PublishTestResults@2
   condition: succeededOrFailed()
