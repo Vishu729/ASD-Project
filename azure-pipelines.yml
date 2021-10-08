@@ -15,3 +15,10 @@ steps:
     rootFolderOrFile: '$(build.sourcesDirectory)'
     includeRootFolder: false
 - task: PublishBuildArtifacts@1
+
+- task: Npm@1
+  displayName: npm run test
+  inputs:
+    command: 'custom'
+    workingDir: 'src/client-app'
+    customCommand: 'run test'
