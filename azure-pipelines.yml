@@ -20,7 +20,7 @@ steps:
   displayName: npm run test
   inputs:
     command: 'custom'
-    workingDir: 'test.js'
+    workingDir: '$(System.DefaultWorkingDirectory)'
     customCommand: 'run test'
 
 - task: PublishTestResults@2
