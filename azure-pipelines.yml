@@ -20,13 +20,13 @@ steps:
   displayName: npm run test
   inputs:
     command: 'custom'
-    workingDir: 'src/client-app'
+    workingDir: './test.js'
     customCommand: 'run test'
 
 - task: PublishTestResults@2
   condition: succeededOrFailed()
   inputs:
-    testRunner: JUnit
+    testRunner: Jest
     testResultsFiles: '**/test-results.xml'
 
 - task: PublishCodeCoverageResults@1
