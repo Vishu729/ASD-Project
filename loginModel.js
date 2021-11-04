@@ -1,6 +1,7 @@
 //Christopher & Kelvin JS
 const db = firebase.firestore();
-
+const loginForm = document.querySelector("#login");
+const createAccountForm = document.querySelector("#createAccount");
 
 var passwordStrength;
 // Firebase login debug.
@@ -53,6 +54,7 @@ function register(createAccountForm, firstName, lastName, email, address, phone,
     } 
     else {
       authenticateUser(firstName, lastName, email, address, phone, password);
+      console.log("registered");
       return "Registered";
     }
 }
@@ -78,6 +80,7 @@ async function authenticateUser(firstName, lastName, email, address, phone, pass
         console.log(firstName + " -> " + lastName + " -> " + email + " -> " + address + " -> " + phone + " -> " + password);
         setFormMessage(createAccountForm, "success", "User has been created");
         updateDatabase(firstName, lastName, email, address, phone);
+        console.log("print");
         return "User Authenticated";
 
     })
