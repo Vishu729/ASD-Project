@@ -23,7 +23,7 @@ function login(adminLogin, username, password) {
     .then(() => {
         // if login is successful, set success message and send to next page
         setFormMessage(adminLogin, "success", "logged in");
-        window.location.href = "./admin.html";
+        window.location.href = "./adminManagement.html";
     })
     .catch(function(error) {
         //Error if log is not successful.

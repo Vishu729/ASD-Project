@@ -1,4 +1,4 @@
-<!--Kennedy html-->
+<!--Kennedy HTML-->
 <!DOCTYPE html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,8 @@
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+        <!--Initialize firebase-->
     <script>
-        // Initialize Firebase
         const firebaseConfig = {
         apiKey: "AIzaSyAZncLkSj7vmT2gcvAFfLIb-ChTQNKhlzs",
         authDomain: "ahmazone-9f8cb.firebaseapp.com",
@@ -21,22 +21,12 @@
         };
         firebase.initializeApp(firebaseConfig);
     </script>
-    <script src="./adminLogin.js" defer></script>
+    <script src="./adminManagement.js" defer></script>
+    <script src="https://cdn.tryretool.com/embed.js"> </script>
 </head>
 <body>
-    
-    <div class ="container">
-        <h1 class="form__title">Admin Management</h1>
-        <p class="form__text">
-            <a href="./userManagement.html" class="form__link">Customer Management</a>
-        </p>
-        <p class="form__text">
-            <a href="./itemAdmin.html" class="form__link">Item Management</a>
-        </p>
-        <p class="form__text">
-            <a href="./orderAdmin.html" class="form__link">Order Management</a>
-        </p>
-        <button class="form__button" onclick="logout()">Logout</button>
-    </div>
-    
+    <div class="topnav">
+        <a href="./adminLogin.html" class="form__link">Logout</a>
+      </div> 
+    <iframe src="https://ahmazone.retool.com/embedded/public/1f4a8640-a479-4596-88d7-44da30701d14" width="100%" height="100%">
 </body>
