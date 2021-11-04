@@ -1,10 +1,14 @@
 // Kennedy JS
+
+
 // const admin = require('firebase-admin');
 // const serviceAccount = require('./ServiceAccount.json');
 // admin.initialiazeApp({
 //     credential: admin.credential.cert(serviceAccount)
 // });
 // const db = admin.firestore();
+
+
 const db = firebase.firestore();
 var userID;
 
@@ -136,14 +140,6 @@ function setFormMessage(formElement, type, message) {
   messageElement.classList.add(`form__message--${type}`);
 }
 
-// admin.auth().getUserByEmail(email)
-//   .then((userRecord) => {
-//     // See the UserRecord reference doc for the contents of userRecord.
-//     console.log(`Successfully fetched user data: ${userRecord.toJSON()}`);
-//   })
-//   .catch((error) => {
-//     console.log('Error fetching user data:', error);
-//   });
 
 
 
